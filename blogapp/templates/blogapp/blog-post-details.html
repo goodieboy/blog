@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+{% extends "base/base.html" %}
+{% block title %} Blog Post {% endblock %}
+{% load static %}
+    {% block body_block %}
+     <section>
+          <div class="container">
+               <h2>{{ post.title }}</h2>
+
+               <p class="lead">
+                    <i class="fa fa-user"></i> {{ post.author}} &nbsp;&nbsp;&nbsp;
+                    <i class="fa fa-calendar"></i> {{ post.time}}&nbsp;&nbsp;&nbsp;
+                    <i class="fa fa-eye"></i> 0
+               </p>
+
+               <img src="{% static "" %}images/other-image-fullscreen-1-1920x700.jpg" class="img-responsive" alt="">
+
+               <br>
+
+               {{ post.content }}
+
+              <br>
+               <div class="row">
+                    <div class="col-md-4 col-xs-12 pull-right">
+                         <h4>Social share</h4>
+
+                         <p>
+                              <a href="#" target="_blank"><i class="fa fa-facebook"></i></a> &nbsp;&nbsp;&nbsp;
+
+                              <a href="#" target="_blank"><i class="fa fa-twitter"></i></a> &nbsp;&nbsp;&nbsp;
+
+                              <a href="#" target="_blank"><i class="fa fa-linkedin"></i></a>
+                         </p>
+
+                         <br>
+
+
+                         <h4>Other posts</h4>
+
+                         <ul class="list">
+{#                              <li><a href="{% url "blogapp:blogpost" %}">Lorem ipsum dolor sit amet, consectetur adipisicing.</a></li>#}
+{#                              <li><a href="{% url "blogapp:blogpost" %}">Et animi voluptatem, assumenda enim, consectetur quaerat!</a></li>#}
+{#                              <li><a href="{% url "blogapp:blogpost" %}">Ducimus magni eveniet sit doloremque molestiae alias mollitia vitae.</a></li>#}
+                         </ul>
+                    </div>
+
+                    <div class="col-md-8 col-xs-12">
+                         <h4>Comments({{ post.commentmodel_set.all.count }})</h4>
+                        {% if  post.commentmodel_set.all.count < 1  %}
+                         <p>No comments found.</p>
+
+                         <br>
+                        {% else %}
+                            {% for comment in post.commentmodel_set.all %}
+                            <div>
+                             Name: {{ comment.name }}<br>
+                             comment: {{ comment.comment_text }}<br>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                         
+                         <h4>Leave a Comment</h4>
+
+                         <form class="form" method ="POST">
+                             {% csrf_token %}
+
+                              <div class="row">
+                                   <div class="col-sm-6 col-xs-6">
+                                        <div class="form-group">
+                                             <label class="control-label">Name</label>
+
+                                             <input type="text" name="name" class="form-control">
+                                        </div>
+                                   </div>
+
+                                   <div class="col-sm-6 col-xs-6">
+                                        <div class="form-group">
+                                             <label class="control-label">Email</label>
+
+                                             <input type="email" name="email" class="form-control">
+                                        </div>
+                                   </div>
+                              </div>
+
+                              <div class="form-group">
+                                   <label class="control-label">Message</label>
+
+                                   <textarea name="comment_text" class="form-control" rows="10" autocomplete="off"></textarea>
+                              </div>
+
+                              <button type="submit" class="section-btn btn btn-primary">Submit</button>
+                         </form>
+
+
+                    </div>
+               </div>
+          </div>
+     </section>
+    {% endblock %}
